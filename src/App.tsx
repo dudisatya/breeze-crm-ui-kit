@@ -24,14 +24,24 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <SidebarProvider>
-          <div className="min-h-screen flex w-full bg-gradient-to-br from-gray-50 via-white to-gray-100">
+          <div className="min-h-screen flex w-full relative overflow-hidden">
+            {/* Modern background with subtle patterns */}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30"></div>
+            
+            {/* Floating geometric elements */}
+            <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-primary/5 to-accent/5 rounded-full blur-3xl animate-pulse-subtle"></div>
+            <div className="absolute bottom-20 left-20 w-48 h-48 bg-gradient-to-tr from-secondary/10 to-primary/5 rounded-full blur-2xl animate-float"></div>
+            <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-gradient-to-r from-accent/5 to-primary/5 rounded-full blur-xl animate-pulse-subtle" style={{animationDelay: '2s'}}></div>
+            
+            {/* Subtle grid pattern overlay */}
+            <div className="absolute inset-0 opacity-5" style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, hsl(225 25% 15%) 1px, transparent 0)`,
+              backgroundSize: '20px 20px'
+            }}></div>
+            
             <AppSidebar />
-            <main className="flex-1 overflow-auto relative">
-              {/* Background decorative elements */}
-              <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-primary/5 to-accent/5 rounded-full -translate-y-48 translate-x-48"></div>
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-secondary/5 to-primary/5 rounded-full translate-y-32 -translate-x-32"></div>
-              
-              <div className="relative z-10">
+            <main className="flex-1 overflow-auto relative z-10">
+              <div className="animate-slide-up">
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/projects" element={<Projects />} />
