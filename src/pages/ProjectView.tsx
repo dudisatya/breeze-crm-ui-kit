@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
@@ -69,32 +68,34 @@ const ProjectView = () => {
         <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-gradient-to-tr from-secondary/10 to-primary/8 rounded-full blur-2xl animate-float"></div>
       </div>
 
-      {/* Header with Back Button */}
-      <div className="flex items-center gap-4 mb-8">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/projects")}
-          className="glass-effect rounded-2xl hover:scale-105 transition-all duration-300 p-3"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <div className="flex-1">
-          <h1 className="text-4xl font-black text-gradient mb-2">{project.name}</h1>
-          <p className="text-muted-foreground text-lg font-medium">Project Details & Task Management</p>
+      {/* Header with Back Button and Add Task Button */}
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            onClick={() => navigate("/projects")}
+            className="glass-effect rounded-2xl hover:scale-105 transition-all duration-300 p-3"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div>
+            <h1 className="text-4xl font-black text-gradient mb-2">{project.name}</h1>
+            <p className="text-muted-foreground text-lg font-medium">Project Details & Task Management</p>
+          </div>
         </div>
         
-        {/* Prominent Add Task Button */}
-        <Button className="glass-effect border-gradient hover:scale-105 transition-all duration-300 px-6 py-3 text-base font-bold">
-          <Plus className="w-5 h-5 mr-2" />
+        {/* Prominent Add Task Button - Top Right */}
+        <Button className="glass-effect border-gradient hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-bold bg-gradient-to-r from-primary to-accent text-white shadow-xl">
+          <Plus className="w-6 h-6 mr-2" />
           Add New Task
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Main Content - Tasks Section */}
-        <div className="lg:col-span-3 space-y-6">
-          {/* Enhanced Tasks Card */}
-          <Card className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
+      {/* First Row: Tasks + Company Info */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        {/* Tasks Section - Takes 2/3 width */}
+        <div className="lg:col-span-2">
+          <Card className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up h-full">
             <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5 p-8">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
@@ -150,10 +151,9 @@ const ProjectView = () => {
           </Card>
         </div>
 
-        {/* Enhanced Sidebar */}
-        <div className="space-y-6">
-          {/* Company Info Card */}
-          <Card className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
+        {/* Company Info - Takes 1/3 width */}
+        <div className="lg:col-span-1">
+          <Card className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up h-full">
             <CardHeader className="p-6 border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 glass-effect rounded-xl flex items-center justify-center">
@@ -189,28 +189,54 @@ const ProjectView = () => {
                     {project.status}
                   </Badge>
                 </div>
+
+                <div className="p-3 glass-effect rounded-2xl">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-muted-foreground flex items-center gap-2">
+                      <Globe className="w-4 h-4" />
+                      Business URL
+                    </span>
+                    <a 
+                      href={project.businessUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline text-sm flex items-center gap-1 font-medium"
+                    >
+                      View Site
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
+        </div>
+      </div>
 
-          {/* Project Details Card */}
+      {/* Second Row: Project Details + Attachments */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Project Details - Takes 2/3 width */}
+        <div className="lg:col-span-2">
           <Card className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5 p-4">
-                <TabsList className="grid w-full grid-cols-2 glass-effect">
-                  <TabsTrigger value="project-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-bold">
-                    Project Info
-                  </TabsTrigger>
-                  <TabsTrigger value="sales-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-bold">
-                    Sales Info
-                  </TabsTrigger>
-                </TabsList>
+              <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5 p-6">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-xl font-black text-gradient">Project Details</CardTitle>
+                  <TabsList className="glass-effect">
+                    <TabsTrigger value="project-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-bold">
+                      Project Info
+                    </TabsTrigger>
+                    <TabsTrigger value="sales-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-bold">
+                      Sales Info
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
               </CardHeader>
 
               <CardContent className="p-6">
                 <TabsContent value="project-info" className="space-y-4 mt-0">
-                  <div className="space-y-4">
-                    <div className="p-3 glass-effect rounded-2xl">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 glass-effect rounded-2xl">
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-muted-foreground flex items-center gap-2">
                           <Package className="w-4 h-4" />
@@ -220,7 +246,7 @@ const ProjectView = () => {
                       </div>
                     </div>
                     
-                    <div className="p-3 glass-effect rounded-2xl">
+                    <div className="p-4 glass-effect rounded-2xl">
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-muted-foreground flex items-center gap-2">
                           <Clock className="w-4 h-4" />
@@ -232,25 +258,7 @@ const ProjectView = () => {
                       </div>
                     </div>
                     
-                    <div className="p-3 glass-effect rounded-2xl">
-                      <div className="flex items-start justify-between">
-                        <span className="font-bold text-muted-foreground flex items-center gap-2">
-                          <Globe className="w-4 h-4" />
-                          Business URL
-                        </span>
-                        <a 
-                          href={project.businessUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline text-sm flex items-center gap-1 font-medium"
-                        >
-                          View Site
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      </div>
-                    </div>
-                    
-                    <div className="p-3 glass-effect rounded-2xl">
+                    <div className="p-4 glass-effect rounded-2xl">
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-muted-foreground flex items-center gap-2">
                           <Phone className="w-4 h-4" />
@@ -260,7 +268,7 @@ const ProjectView = () => {
                       </div>
                     </div>
                     
-                    <div className="p-3 glass-effect rounded-2xl">
+                    <div className="p-4 glass-effect rounded-2xl">
                       <div className="flex items-start justify-between">
                         <span className="font-bold text-muted-foreground flex items-center gap-2">
                           <MapPin className="w-4 h-4" />
@@ -281,16 +289,25 @@ const ProjectView = () => {
               </CardContent>
             </Tabs>
           </Card>
+        </div>
 
-          {/* Attachments Section */}
-          <Card className="glass-card rounded-3xl border-0 shadow-xl animate-slide-up">
-            <CardHeader className="p-6">
-              <CardTitle className="font-black text-gradient">Attachments</CardTitle>
+        {/* Attachments - Takes 1/3 width */}
+        <div className="lg:col-span-1">
+          <Card className="glass-card rounded-3xl border-0 shadow-xl animate-slide-up h-full">
+            <CardHeader className="p-6 border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
+              <CardTitle className="font-black text-gradient flex items-center gap-2">
+                <Package className="w-5 h-5" />
+                Attachments
+              </CardTitle>
             </CardHeader>
-            <CardContent className="p-6 pt-0">
-              <div className="text-center py-4 text-muted-foreground">
-                <Package className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                <p className="text-sm">No attachments available</p>
+            <CardContent className="p-6">
+              <div className="text-center py-8 text-muted-foreground">
+                <Package className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="text-sm font-medium">No attachments available</p>
+                <Button variant="outline" className="mt-4 glass-effect">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Attachment
+                </Button>
               </div>
             </CardContent>
           </Card>
