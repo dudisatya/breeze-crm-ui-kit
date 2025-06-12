@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { AddProjectDialog } from "@/components/AddProjectDialog";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,7 @@ const projectsData = [
 ];
 
 const Projects = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -49,6 +51,10 @@ const Projects = () => {
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentProjects = filteredProjects.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleViewProject = (projectName: string) => {
+    navigate(`/project/${encodeURIComponent(projectName)}`);
+  };
 
   return (
     <div className="flex-1 space-y-8 p-8 relative">
@@ -135,7 +141,12 @@ const Projects = () => {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right py-6 px-8">
-                  <Button variant="ghost" size="sm" className="glass-effect rounded-xl hover:scale-110 transition-all duration-300 group-hover:modern-glow">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => handleViewProject(project.name)}
+                    className="glass-effect rounded-xl hover:scale-110 transition-all duration-300 group-hover:modern-glow"
+                  >
                     <Eye className="w-5 h-5 text-primary" />
                   </Button>
                 </TableCell>
