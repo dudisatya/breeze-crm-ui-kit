@@ -30,6 +30,8 @@ const projectData = {
     company: "Around29 IT Services",
     companyUrl: "https://weirmobileautorepair.com/",
     status: "Maintenance Changes In Progress",
+    siteStartDate: "0000-00-00",
+    siteLiveDate: "0000-00-00",
     tasks: [
       {
         taskName: "Listings Management Onboarding Form",
@@ -84,10 +86,9 @@ const ProjectView = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content - Left Side */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Tasks Table */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Tasks Table - Left Column */}
+        <div className="space-y-6">
           <div className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
             <div className="p-6 border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
               <div className="flex items-center justify-between">
@@ -138,134 +139,128 @@ const ProjectView = () => {
           </div>
         </div>
 
-        {/* Sidebar - Right Side */}
-        <div className="space-y-6">
-          {/* Company Info Card */}
-          <div className="glass-card rounded-3xl border-0 shadow-xl p-6 animate-slide-up">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 glass-effect rounded-xl flex items-center justify-center">
-                <User className="w-5 h-5 text-primary animate-pulse-subtle" />
-              </div>
-              <h3 className="text-lg font-black text-gradient">{project.company}</h3>
+        {/* Right Column - Company Info + Tabs */}
+        <div className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
+          {/* Company Header */}
+          <div className="p-6 bg-gradient-to-r from-primary/5 to-accent/5">
+            <h2 className="text-2xl font-black text-gradient mb-2">{project.company}</h2>
+            <div className="text-sm text-muted-foreground mb-4">
+              <span className="font-bold">Order Type:</span> {project.orderType}
             </div>
             
-            <div className="space-y-3">
-              <div className="text-sm">
-                <span className="font-bold text-muted-foreground">Order Type:</span>
-                <span className="ml-2 text-foreground">{project.orderType}</span>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center">
+                <User className="w-8 h-8 text-white" />
               </div>
-              
-              <div className="flex items-center gap-2 text-sm">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center">
-                  <User className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="font-semibold text-foreground">{project.company}</div>
-                  <a 
-                    href={project.companyUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline text-sm flex items-center gap-1"
-                  >
-                    {project.companyUrl}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-              
-              <div className="text-sm">
-                <span className="text-muted-foreground">{project.status}</span>
+              <div>
+                <div className="font-bold text-foreground text-lg">{project.company}</div>
+                <a 
+                  href={project.companyUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline flex items-center gap-1"
+                >
+                  {project.companyUrl}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               </div>
             </div>
+            
+            <div className="text-muted-foreground">{project.status}</div>
           </div>
 
-          {/* Project Details Card */}
-          <div className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <div className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5 p-4">
-                <TabsList className="grid w-full grid-cols-2 glass-effect">
-                  <TabsTrigger value="project-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-semibold">
-                    Project Info
-                  </TabsTrigger>
-                  <TabsTrigger value="sales-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-semibold">
-                    Sales Info
-                  </TabsTrigger>
-                </TabsList>
-              </div>
+          {/* Tabs Section */}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <div className="border-b border-border/50">
+              <TabsList className="w-full grid grid-cols-3 h-auto p-0 bg-transparent">
+                <TabsTrigger 
+                  value="project-info" 
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/10 py-4 font-bold"
+                >
+                  Project Info
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="sales-info" 
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/10 py-4 font-bold"
+                >
+                  Sales Info
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="attachments" 
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/10 py-4 font-bold"
+                >
+                  Attachments
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
-              <div className="p-6">
-                <TabsContent value="project-info" className="space-y-4 mt-0">
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-border/30">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <Package className="w-4 h-4" />
-                        Product Type
-                      </span>
-                      <span className="text-foreground font-medium">{project.productType}</span>
+            <div className="p-6">
+              <TabsContent value="project-info" className="space-y-4 mt-0">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="font-bold text-foreground block">Product Type</span>
+                      <span className="text-muted-foreground">{project.productType}</span>
                     </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b border-border/30">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        Order Status
-                      </span>
+                    <div>
+                      <span className="font-bold text-foreground block">Order Status</span>
                       <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 font-semibold">
                         {project.orderStatus}
                       </Badge>
                     </div>
-                    
-                    <div className="flex justify-between items-start py-2 border-b border-border/30">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <Globe className="w-4 h-4" />
-                        Business URL
-                      </span>
-                      <a 
-                        href={project.businessUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline text-sm flex items-center gap-1 max-w-[150px] text-right"
-                      >
-                        {project.businessUrl}
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b border-border/30">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <Phone className="w-4 h-4" />
-                        Business Phone
-                      </span>
-                      <span className="text-foreground font-medium">{project.businessPhone}</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-start py-2">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
-                        Business Address
-                      </span>
-                      <span className="text-foreground font-medium text-right max-w-[150px]">{project.businessAddress}</span>
-                    </div>
                   </div>
-                </TabsContent>
-                
-                <TabsContent value="sales-info" className="mt-0">
-                  <div className="text-center py-8 text-muted-foreground">
-                    <Package className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p className="font-medium">Sales information will be displayed here</p>
+                  
+                  <div>
+                    <span className="font-bold text-foreground block">Business URL</span>
+                    <a 
+                      href={project.businessUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline flex items-center gap-1"
+                    >
+                      {project.businessUrl}
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
                   </div>
-                </TabsContent>
-              </div>
-            </Tabs>
-          </div>
+                  
+                  <div>
+                    <span className="font-bold text-foreground block">Business Phone</span>
+                    <span className="text-muted-foreground">{project.businessPhone}</span>
+                  </div>
+                  
+                  <div>
+                    <span className="font-bold text-foreground block">Business Address</span>
+                    <span className="text-muted-foreground">{project.businessAddress}</span>
+                  </div>
 
-          {/* Attachments Section */}
-          <div className="glass-card rounded-3xl border-0 shadow-xl p-6 animate-slide-up">
-            <h4 className="font-black text-gradient mb-4">Attachments</h4>
-            <div className="text-center py-4 text-muted-foreground">
-              <Package className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No attachments available</p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="font-bold text-foreground block">Site Start Date</span>
+                      <span className="text-muted-foreground">{project.siteStartDate}</span>
+                    </div>
+                    <div>
+                      <span className="font-bold text-foreground block">Site Live Date</span>
+                      <span className="text-muted-foreground">{project.siteLiveDate}</span>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="sales-info" className="mt-0">
+                <div className="text-center py-8 text-muted-foreground">
+                  <Package className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                  <p className="font-medium">Sales information will be displayed here</p>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="attachments" className="mt-0">
+                <div className="text-center py-8 text-muted-foreground">
+                  <Package className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No attachments available</p>
+                </div>
+              </TabsContent>
             </div>
-          </div>
+          </Tabs>
         </div>
       </div>
     </div>
