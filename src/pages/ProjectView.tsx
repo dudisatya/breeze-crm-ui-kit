@@ -14,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ArrowLeft, Eye, Plus, User } from "lucide-react";
+import { Header } from "@/components/Header";
 
 // Mock data - in real app this would come from API
 const projectData = {
@@ -61,57 +62,60 @@ const ProjectView = () => {
   }
 
   return (
-    <div className="flex-1 bg-gray-50 min-h-screen">
-      {/* Header */}
-      <div className="bg-white border-b px-6 py-4">
-        <div className="flex items-center justify-between">
+    <div className="flex-1 min-h-screen bg-background">
+      {/* Header with project name and add task button */}
+      <div className="glass-card border-0 sticky top-0 z-50 backdrop-blur-xl">
+        <div className="flex h-20 items-center justify-between px-8">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
               onClick={() => navigate("/projects")}
-              className="p-2"
+              className="p-2 glass-effect rounded-2xl hover:scale-110 transition-all duration-300"
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-2xl font-bold text-gray-900">{project.name}</h1>
+            <h1 className="text-4xl font-black tracking-tight text-gradient leading-none">
+              {project.name}
+            </h1>
           </div>
           
           {/* Green Add Task Button */}
-          <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-full glass-effect hover:scale-105 transition-all duration-300 shadow-lg">
             <Plus className="w-5 h-5 mr-2" />
+            Add New Task
           </Button>
         </div>
       </div>
 
-      <div className="p-6">
-        {/* First Row: Tasks + Company Info */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+      <div className="p-8 space-y-8">
+        {/* First Row: Tasks (Left) + Company Info (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Tasks Section - Takes 2/3 width */}
           <div className="lg:col-span-2">
-            <Card className="bg-white border border-gray-200 rounded-lg shadow-sm">
+            <Card className="glass-card border-0 shadow-lg hover-lift">
               <CardContent className="p-0">
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-b border-gray-200">
-                      <TableHead className="text-gray-900 font-semibold py-4 px-6">Task Name</TableHead>
-                      <TableHead className="text-gray-900 font-semibold py-4">Created on</TableHead>
-                      <TableHead className="text-gray-900 font-semibold py-4">Task Status</TableHead>
-                      <TableHead className="text-right text-gray-900 font-semibold py-4 px-6">Action</TableHead>
+                    <TableRow className="border-b border-border">
+                      <TableHead className="text-foreground font-bold py-6 px-8 text-lg">Task Name</TableHead>
+                      <TableHead className="text-foreground font-bold py-6 text-lg">Created on</TableHead>
+                      <TableHead className="text-foreground font-bold py-6 text-lg">Task Status</TableHead>
+                      <TableHead className="text-right text-foreground font-bold py-6 px-8 text-lg">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {project.tasks.map((task, index) => (
-                      <TableRow key={index} className="border-b border-gray-100 hover:bg-gray-50">
-                        <TableCell className="font-medium py-4 px-6 text-gray-900">{task.taskName}</TableCell>
-                        <TableCell className="py-4 text-gray-600">{task.createdOn}</TableCell>
-                        <TableCell className="py-4">
-                          <Badge variant="outline" className="bg-gray-100 text-gray-700 border-gray-300">
+                      <TableRow key={index} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
+                        <TableCell className="font-semibold py-6 px-8 text-foreground text-base">{task.taskName}</TableCell>
+                        <TableCell className="py-6 text-muted-foreground text-base">{task.createdOn}</TableCell>
+                        <TableCell className="py-6">
+                          <Badge variant="outline" className="bg-muted text-foreground border-border font-medium">
                             {task.taskStatus}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-right py-4 px-6">
-                          <Button variant="ghost" size="sm" className="p-2">
-                            <Eye className="w-4 h-4 text-gray-500" />
+                        <TableCell className="text-right py-6 px-8">
+                          <Button variant="ghost" size="sm" className="p-3 glass-effect rounded-xl hover:scale-110 transition-all duration-300">
+                            <Eye className="w-5 h-5 text-muted-foreground" />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -124,116 +128,131 @@ const ProjectView = () => {
 
           {/* Company Info - Takes 1/3 width */}
           <div className="lg:col-span-1">
-            <Card className="bg-white border border-gray-200 rounded-lg shadow-sm h-full">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-gray-900">Around29 IT Services</CardTitle>
-                <p className="text-sm text-gray-600">Order Type: {project.orderType}</p>
+            <Card className="glass-card border-0 shadow-lg hover-lift h-full">
+              <CardHeader className="pb-6">
+                <CardTitle className="text-2xl font-bold text-foreground">Around29 IT Services</CardTitle>
+                <p className="text-muted-foreground text-base font-medium">Order Type: {project.orderType}</p>
               </CardHeader>
               
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-blue-600" />
+              <CardContent className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center relative overflow-hidden shadow-lg">
+                    <User className="w-8 h-8 text-white relative z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
                   </div>
                   <div>
-                    <div className="font-medium text-gray-900">Around29 IT Services</div>
+                    <div className="font-bold text-foreground text-lg">Around29 IT Services</div>
                     <a 
                       href={project.companyUrl} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline text-sm"
+                      className="text-primary hover:underline font-medium"
                     >
                       {project.companyUrl}
                     </a>
                   </div>
                 </div>
                 
-                <div className="pt-2">
-                  <div className="text-sm font-medium text-gray-700 mb-2">{project.status}</div>
+                <div className="pt-4">
+                  <div className="text-base font-semibold text-muted-foreground">{project.status}</div>
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* Second Row: Project Details + Attachments */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Project Details - Takes 2/3 width */}
+        {/* Second Row: Project Details (Left) + Attachments (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Project Details with Tabs - Takes 2/3 width */}
           <div className="lg:col-span-2">
-            <Card className="bg-white border border-gray-200 rounded-lg shadow-sm">
-              <CardContent className="p-6">
-                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 mb-6">
-                    <TabsTrigger 
-                      value="project-info" 
-                      className="data-[state=active]:bg-green-600 data-[state=active]:text-white"
+            <Card className="glass-card border-0 shadow-lg hover-lift">
+              <CardContent className="p-0">
+                {/* Tab Navigation */}
+                <div className="border-b border-border p-6">
+                  <div className="flex gap-2">
+                    <Button
+                      variant={activeTab === "project-info" ? "default" : "ghost"}
+                      onClick={() => setActiveTab("project-info")}
+                      className={activeTab === "project-info" 
+                        ? "bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold"
+                        : "text-muted-foreground hover:text-foreground px-6 py-3 rounded-lg font-semibold"
+                      }
                     >
                       Project Info
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="sales-info"
-                      className="data-[state=active]:bg-green-600 data-[state=active]:text-white"
+                    </Button>
+                    <Button
+                      variant={activeTab === "sales-info" ? "default" : "ghost"}
+                      onClick={() => setActiveTab("sales-info")}
+                      className={activeTab === "sales-info" 
+                        ? "bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold"
+                        : "text-muted-foreground hover:text-foreground px-6 py-3 rounded-lg font-semibold"
+                      }
                     >
                       Sales Info
-                    </TabsTrigger>
-                  </TabsList>
+                    </Button>
+                  </div>
+                </div>
 
-                  <TabsContent value="project-info" className="space-y-4 mt-0">
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <div className="text-sm font-medium text-gray-700 mb-1">Product Type</div>
-                        <div className="text-gray-900">{project.orderType}</div>
-                      </div>
-                      
-                      <div>
-                        <div className="text-sm font-medium text-gray-700 mb-1">Order Status</div>
-                        <div className="text-gray-900">{project.orderStatus}</div>
-                      </div>
-                      
-                      <div>
-                        <div className="text-sm font-medium text-gray-700 mb-1">Business URL</div>
-                        <a 
-                          href={project.businessUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          {project.businessUrl}
-                        </a>
-                      </div>
-                      
-                      <div>
-                        <div className="text-sm font-medium text-gray-700 mb-1">Business Phone</div>
-                        <div className="text-gray-900">{project.businessPhone}</div>
-                      </div>
-                      
-                      <div className="col-span-2">
-                        <div className="text-sm font-medium text-gray-700 mb-1">Business Address</div>
-                        <div className="text-gray-900">{project.businessAddress}</div>
+                {/* Tab Content */}
+                <div className="p-8">
+                  {activeTab === "project-info" && (
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-2 gap-8">
+                        <div>
+                          <div className="text-base font-bold text-foreground mb-2">Product Type</div>
+                          <div className="text-muted-foreground text-base">{project.orderType}</div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-base font-bold text-foreground mb-2">Order Status</div>
+                          <div className="text-muted-foreground text-base">{project.orderStatus}</div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-base font-bold text-foreground mb-2">Business URL</div>
+                          <a 
+                            href={project.businessUrl} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline text-base"
+                          >
+                            {project.businessUrl}
+                          </a>
+                        </div>
+                        
+                        <div>
+                          <div className="text-base font-bold text-foreground mb-2">Business Phone</div>
+                          <div className="text-muted-foreground text-base">{project.businessPhone}</div>
+                        </div>
+                        
+                        <div className="col-span-2">
+                          <div className="text-base font-bold text-foreground mb-2">Business Address</div>
+                          <div className="text-muted-foreground text-base">{project.businessAddress}</div>
+                        </div>
                       </div>
                     </div>
-                  </TabsContent>
+                  )}
                   
-                  <TabsContent value="sales-info" className="mt-0">
-                    <div className="text-center py-8 text-gray-500">
-                      <p>Sales information will be displayed here</p>
+                  {activeTab === "sales-info" && (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <p className="text-lg">Sales information will be displayed here</p>
                     </div>
-                  </TabsContent>
-                </Tabs>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Attachments - Takes 1/3 width */}
           <div className="lg:col-span-1">
-            <Card className="bg-white border border-gray-200 rounded-lg shadow-sm h-full">
+            <Card className="glass-card border-0 shadow-lg hover-lift h-full">
               <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900">Attachments</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">Attachments</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-gray-500">
-                  <p className="text-sm">No attachments available</p>
-                  <Button variant="outline" className="mt-4" size="sm">
+                <div className="text-center py-12 text-muted-foreground">
+                  <p className="text-base mb-6">No attachments available</p>
+                  <Button variant="outline" className="glass-effect hover:scale-105 transition-all duration-300" size="sm">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Attachment
                   </Button>
