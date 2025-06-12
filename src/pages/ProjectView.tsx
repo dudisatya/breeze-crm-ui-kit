@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -87,8 +86,8 @@ const ProjectView = () => {
         </div>
       </div>
 
-      <div className="p-6 space-y-6">
-        {/* First Row: Tasks (Left) + Company Info (Right) */}
+      <div className="p-6">
+        {/* Single Row: Tasks (Left) + Combined Right Column */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Tasks Section - Takes 3/4 width */}
           <div className="lg:col-span-3">
@@ -124,9 +123,10 @@ const ProjectView = () => {
             </Card>
           </div>
 
-          {/* Company Info - Takes 1/4 width */}
-          <div className="lg:col-span-1">
-            <Card className="border border-border shadow-sm h-full">
+          {/* Combined Right Column - Takes 1/4 width */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Company Info */}
+            <Card className="border border-border shadow-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-bold text-foreground">Around29 IT Services</CardTitle>
                 <p className="text-sm text-muted-foreground">Order Type: {project.orderType}</p>
@@ -155,13 +155,8 @@ const ProjectView = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
 
-        {/* Second Row: Project Details with Tabs */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Project Details with Tabs - Takes 3/4 width */}
-          <div className="lg:col-span-3">
+            {/* Project Details with Tabs */}
             <Card className="border border-border shadow-sm">
               <CardContent className="p-0">
                 {/* Tab Navigation */}
@@ -194,7 +189,7 @@ const ProjectView = () => {
                 <div className="p-6">
                   {activeTab === "project-info" && (
                     <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                      <div className="space-y-4">
                         <div>
                           <div className="text-sm font-semibold text-foreground mb-1">Product Type</div>
                           <div className="text-sm text-foreground">{project.orderType}</div>
@@ -211,7 +206,7 @@ const ProjectView = () => {
                             href={project.businessUrl} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:underline"
+                            className="text-sm text-blue-600 hover:underline break-all"
                           >
                             {project.businessUrl}
                           </a>
@@ -248,11 +243,9 @@ const ProjectView = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
 
-          {/* Attachments - Takes 1/4 width */}
-          <div className="lg:col-span-1">
-            <Card className="border border-border shadow-sm h-full">
+            {/* Attachments */}
+            <Card className="border border-border shadow-sm">
               <CardHeader>
                 <CardTitle className="text-lg font-bold text-foreground">Attachments</CardTitle>
               </CardHeader>
