@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowLeft, Eye, Globe, Phone, MapPin, Package, Clock, User, Plus, ExternalLink } from "lucide-react";
+import { ArrowLeft, Eye, Globe, Phone, MapPin, Package, Clock, User, Plus, ExternalLink, Building2, Calendar } from "lucide-react";
 
 // Mock data - in real app this would come from API
 const projectData = {
@@ -70,180 +70,204 @@ const ProjectView = () => {
       </div>
 
       {/* Header with Back Button */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-8">
         <Button
           variant="ghost"
           onClick={() => navigate("/projects")}
-          className="glass-effect rounded-2xl hover:scale-110 transition-all duration-300 p-3"
+          className="glass-effect rounded-2xl hover:scale-105 transition-all duration-300 p-3"
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div>
-          <h1 className="text-3xl font-black text-gradient">{project.name}</h1>
-          <p className="text-muted-foreground font-medium">Project Details & Management</p>
+        <div className="flex-1">
+          <h1 className="text-4xl font-black text-gradient mb-2">{project.name}</h1>
+          <p className="text-muted-foreground text-lg font-medium">Project Details & Task Management</p>
         </div>
+        
+        {/* Prominent Add Task Button */}
+        <Button className="glass-effect border-gradient hover:scale-105 transition-all duration-300 px-6 py-3 text-base font-bold">
+          <Plus className="w-5 h-5 mr-2" />
+          Add New Task
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content - Left Side */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Tasks Table */}
-          <div className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
-            <div className="p-6 border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Main Content - Tasks Section */}
+        <div className="lg:col-span-3 space-y-6">
+          {/* Enhanced Tasks Card */}
+          <Card className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
+            <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5 p-8">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 glass-effect rounded-xl flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-primary animate-pulse-subtle" />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 glass-effect rounded-2xl flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-primary animate-pulse-subtle" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-gradient">Tasks</h3>
-                    <p className="text-muted-foreground font-medium">Project task management</p>
+                    <CardTitle className="text-2xl font-black text-gradient">Project Tasks</CardTitle>
+                    <p className="text-muted-foreground font-medium mt-1">Manage and track task progress</p>
                   </div>
                 </div>
-                <Button size="sm" className="glass-effect border-gradient hover:scale-105 transition-all duration-300">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Task
-                </Button>
+                <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 font-bold px-4 py-2">
+                  {project.tasks.length} Task{project.tasks.length !== 1 ? 's' : ''}
+                </Badge>
               </div>
-            </div>
+            </CardHeader>
 
-            <Table>
-              <TableHeader>
-                <TableRow className="border-border/50 hover:bg-muted/30">
-                  <TableHead className="text-sm font-bold text-foreground py-4 px-6">Task Name</TableHead>
-                  <TableHead className="text-sm font-bold text-foreground py-4">Created on</TableHead>
-                  <TableHead className="text-sm font-bold text-foreground py-4">Task Status</TableHead>
-                  <TableHead className="text-right text-sm font-bold text-foreground py-4 px-6">Action</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {project.tasks.map((task, index) => (
-                  <TableRow key={index} className="border-border/30 hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5 transition-all duration-300 group">
-                    <TableCell className="font-semibold py-4 px-6 text-foreground">{task.taskName}</TableCell>
-                    <TableCell className="py-4 text-muted-foreground">{task.createdOn}</TableCell>
-                    <TableCell className="py-4">
-                      <Badge variant="outline" className="bg-emerald-50 text-emerald-600 border-emerald-200 font-semibold">
-                        {task.taskStatus}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right py-4 px-6">
-                      <Button variant="ghost" size="sm" className="glass-effect rounded-xl hover:scale-110 transition-all duration-300">
-                        <Eye className="w-4 h-4 text-primary" />
-                      </Button>
-                    </TableCell>
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-border/50 hover:bg-muted/30">
+                    <TableHead className="text-base font-bold text-foreground py-6 px-8">Task Name</TableHead>
+                    <TableHead className="text-base font-bold text-foreground py-6">Created Date</TableHead>
+                    <TableHead className="text-base font-bold text-foreground py-6">Status</TableHead>
+                    <TableHead className="text-right text-base font-bold text-foreground py-6 px-8">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                </TableHeader>
+                <TableBody>
+                  {project.tasks.map((task, index) => (
+                    <TableRow key={index} className="border-border/30 hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5 transition-all duration-300 group">
+                      <TableCell className="font-semibold py-6 px-8 text-foreground text-base">{task.taskName}</TableCell>
+                      <TableCell className="py-6 text-muted-foreground font-medium">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          {task.createdOn}
+                        </div>
+                      </TableCell>
+                      <TableCell className="py-6">
+                        <Badge variant="outline" className="bg-emerald-50 text-emerald-600 border-emerald-200 font-bold px-3 py-1">
+                          {task.taskStatus}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right py-6 px-8">
+                        <Button variant="ghost" size="sm" className="glass-effect rounded-xl hover:scale-110 transition-all duration-300">
+                          <Eye className="w-5 h-5 text-primary" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Sidebar - Right Side */}
+        {/* Enhanced Sidebar */}
         <div className="space-y-6">
           {/* Company Info Card */}
-          <div className="glass-card rounded-3xl border-0 shadow-xl p-6 animate-slide-up">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 glass-effect rounded-xl flex items-center justify-center">
-                <User className="w-5 h-5 text-primary animate-pulse-subtle" />
+          <Card className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
+            <CardHeader className="p-6 border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 glass-effect rounded-xl flex items-center justify-center">
+                  <Building2 className="w-5 h-5 text-primary animate-pulse-subtle" />
+                </div>
+                <CardTitle className="text-lg font-black text-gradient">{project.company}</CardTitle>
               </div>
-              <h3 className="text-lg font-black text-gradient">{project.company}</h3>
-            </div>
+            </CardHeader>
             
-            <div className="space-y-3">
-              <div className="text-sm">
-                <span className="font-bold text-muted-foreground">Order Type:</span>
-                <span className="ml-2 text-foreground">{project.orderType}</span>
-              </div>
-              
-              <div className="flex items-center gap-2 text-sm">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center">
-                  <User className="w-6 h-6 text-white" />
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-3 glass-effect rounded-2xl">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-bold text-foreground">{project.company}</div>
+                    <a 
+                      href={project.companyUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline text-sm flex items-center gap-1 font-medium"
+                    >
+                      Visit Website
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-semibold text-foreground">{project.company}</div>
-                  <a 
-                    href={project.companyUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline text-sm flex items-center gap-1"
-                  >
-                    {project.companyUrl}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                
+                <div className="p-3 glass-effect rounded-2xl">
+                  <div className="text-sm font-bold text-muted-foreground mb-1">Current Status</div>
+                  <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 font-bold">
+                    {project.status}
+                  </Badge>
                 </div>
               </div>
-              
-              <div className="text-sm">
-                <span className="text-muted-foreground">{project.status}</span>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Project Details Card */}
-          <div className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
+          <Card className="glass-card rounded-3xl border-0 shadow-xl overflow-hidden animate-slide-up">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <div className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5 p-4">
+              <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5 p-4">
                 <TabsList className="grid w-full grid-cols-2 glass-effect">
-                  <TabsTrigger value="project-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-semibold">
+                  <TabsTrigger value="project-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-bold">
                     Project Info
                   </TabsTrigger>
-                  <TabsTrigger value="sales-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-semibold">
+                  <TabsTrigger value="sales-info" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary font-bold">
                     Sales Info
                   </TabsTrigger>
                 </TabsList>
-              </div>
+              </CardHeader>
 
-              <div className="p-6">
+              <CardContent className="p-6">
                 <TabsContent value="project-info" className="space-y-4 mt-0">
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-border/30">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <Package className="w-4 h-4" />
-                        Product Type
-                      </span>
-                      <span className="text-foreground font-medium">{project.productType}</span>
+                  <div className="space-y-4">
+                    <div className="p-3 glass-effect rounded-2xl">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-muted-foreground flex items-center gap-2">
+                          <Package className="w-4 h-4" />
+                          Product Type
+                        </span>
+                        <Badge variant="secondary" className="font-bold">{project.productType}</Badge>
+                      </div>
                     </div>
                     
-                    <div className="flex justify-between items-center py-2 border-b border-border/30">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        Order Status
-                      </span>
-                      <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 font-semibold">
-                        {project.orderStatus}
-                      </Badge>
+                    <div className="p-3 glass-effect rounded-2xl">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-muted-foreground flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          Order Status
+                        </span>
+                        <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 font-bold">
+                          {project.orderStatus}
+                        </Badge>
+                      </div>
                     </div>
                     
-                    <div className="flex justify-between items-start py-2 border-b border-border/30">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <Globe className="w-4 h-4" />
-                        Business URL
-                      </span>
-                      <a 
-                        href={project.businessUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline text-sm flex items-center gap-1 max-w-[150px] text-right"
-                      >
-                        {project.businessUrl}
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
+                    <div className="p-3 glass-effect rounded-2xl">
+                      <div className="flex items-start justify-between">
+                        <span className="font-bold text-muted-foreground flex items-center gap-2">
+                          <Globe className="w-4 h-4" />
+                          Business URL
+                        </span>
+                        <a 
+                          href={project.businessUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline text-sm flex items-center gap-1 font-medium"
+                        >
+                          View Site
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
                     </div>
                     
-                    <div className="flex justify-between items-center py-2 border-b border-border/30">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <Phone className="w-4 h-4" />
-                        Business Phone
-                      </span>
-                      <span className="text-foreground font-medium">{project.businessPhone}</span>
+                    <div className="p-3 glass-effect rounded-2xl">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-muted-foreground flex items-center gap-2">
+                          <Phone className="w-4 h-4" />
+                          Phone
+                        </span>
+                        <span className="text-foreground font-medium">{project.businessPhone}</span>
+                      </div>
                     </div>
                     
-                    <div className="flex justify-between items-start py-2">
-                      <span className="font-bold text-muted-foreground flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
-                        Business Address
-                      </span>
-                      <span className="text-foreground font-medium text-right max-w-[150px]">{project.businessAddress}</span>
+                    <div className="p-3 glass-effect rounded-2xl">
+                      <div className="flex items-start justify-between">
+                        <span className="font-bold text-muted-foreground flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          Address
+                        </span>
+                        <span className="text-foreground font-medium text-right text-sm">{project.businessAddress}</span>
+                      </div>
                     </div>
                   </div>
                 </TabsContent>
@@ -254,18 +278,22 @@ const ProjectView = () => {
                     <p className="font-medium">Sales information will be displayed here</p>
                   </div>
                 </TabsContent>
-              </div>
+              </CardContent>
             </Tabs>
-          </div>
+          </Card>
 
           {/* Attachments Section */}
-          <div className="glass-card rounded-3xl border-0 shadow-xl p-6 animate-slide-up">
-            <h4 className="font-black text-gradient mb-4">Attachments</h4>
-            <div className="text-center py-4 text-muted-foreground">
-              <Package className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No attachments available</p>
-            </div>
-          </div>
+          <Card className="glass-card rounded-3xl border-0 shadow-xl animate-slide-up">
+            <CardHeader className="p-6">
+              <CardTitle className="font-black text-gradient">Attachments</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 pt-0">
+              <div className="text-center py-4 text-muted-foreground">
+                <Package className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                <p className="text-sm">No attachments available</p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
