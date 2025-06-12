@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
@@ -15,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ArrowLeft, Eye, Globe, Phone, MapPin, Package, Clock, User, Plus, ExternalLink } from "lucide-react";
+import ListingsOnboardingForm from "@/components/ListingsOnboardingForm";
 
 // Mock data - in real app this would come from API
 const projectData = {
@@ -46,6 +46,7 @@ const ProjectView = () => {
   const { projectName } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("project-info");
+  const [showOnboardingForm, setShowOnboardingForm] = useState(false);
 
   // Get project data (in real app, this would be fetched from API)
   const project = projectData[projectName as keyof typeof projectData];
@@ -62,6 +63,12 @@ const ProjectView = () => {
       </div>
     );
   }
+
+  const handleTaskAction = (taskName: string) => {
+    if (taskName === "Listings Management Onboarding Form") {
+      setShowOnboardingForm(true);
+    }
+  };
 
   return (
     <div className="flex-1 space-y-6 p-8 relative">
@@ -128,7 +135,12 @@ const ProjectView = () => {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right py-4 px-6">
-                      <Button variant="ghost" size="sm" className="glass-effect rounded-xl hover:scale-110 transition-all duration-300">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => handleTaskAction(task.taskName)}
+                        className="glass-effect rounded-xl hover:scale-110 transition-all duration-300"
+                      >
                         <Eye className="w-4 h-4 text-primary" />
                       </Button>
                     </TableCell>
@@ -263,6 +275,12 @@ const ProjectView = () => {
           </Tabs>
         </div>
       </div>
+
+      {/* Listings Onboarding Form Dialog */}
+      <ListingsOnboardingForm 
+        open={showOnboardingForm} 
+        onOpenChange={setShowOnboardingForm}
+      />
     </div>
   );
 };
